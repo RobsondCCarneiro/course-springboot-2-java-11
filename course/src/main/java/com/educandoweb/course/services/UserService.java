@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
@@ -17,15 +17,18 @@ import com.educandoweb.course.repositories.UserRepository;
  * @Repository e a de @Service, cada uma para ficar semanticamente
  * específico.
  */
-@Component
+@Service
 public class UserService {
+	//@Autowired é para fazer a injeção de dependência transparente
 	@Autowired
 	private UserRepository repository;
 	
+	//Operação para buscar todos os usuários
 	public List<User> findAll(){
 		return repository.findAll();
 	}
 	
+	//Operação para buscar os usuários pelo id
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
 		return obj.get();
