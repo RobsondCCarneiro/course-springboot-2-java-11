@@ -1,11 +1,14 @@
 package com.educandoweb.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User implements Serializable{
@@ -18,6 +21,10 @@ public class User implements Serializable{
 	private String email;
 	private String phone;
 	private String password;
+	
+	//entidade criada posteriomente para mapear a classe Order
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
 	
 	public User() {
 		
@@ -95,6 +102,11 @@ public class User implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	//Como order é uma coleção, então utilizar apenas os getters
+	public List<Order> getOrders() {
+		return orders;
 	}
 	
 }
