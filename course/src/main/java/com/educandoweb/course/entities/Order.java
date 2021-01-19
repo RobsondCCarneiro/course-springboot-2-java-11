@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.educandoweb.course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 //Por causa do conflito foi necessário , foi necessário colocar o nome de "tb_order"
@@ -26,6 +27,8 @@ public class Order implements Serializable {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
+	
+	private OrderStatus orderStatus;
 
 	/*
 	 * Para transformar client em chave estrangeira, isso porque um Usuário (User)
@@ -41,10 +44,11 @@ public class Order implements Serializable {
 
 	}
 
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
+		this.orderStatus = orderStatus;
 		this.client = client;
 	}
 
@@ -72,6 +76,20 @@ public class Order implements Serializable {
 		this.client = client;
 	}
 
+	
+//	public OrderStatus getOrderStatus() {
+//		return orderStatus;
+//	}
+	
+	/*
+	 * Parei o video em 10:17, tente terminar a aula amanhã
+	 */
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
