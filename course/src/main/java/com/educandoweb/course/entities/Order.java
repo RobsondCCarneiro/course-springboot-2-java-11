@@ -11,32 +11,34 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 //Por causa do conflito foi necessário , foi necessário colocar o nome de "tb_order"
 @Entity
-@Table(name = "tb_user")
-public class Order implements Serializable{
+@Table(name = "tb_order")
+public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
-	
+
 	/*
-	 * Para transformar client em chave estrangeira, isso porque
-	 * um Usuário (User) pode ter várias pedidos, enquanto o Pedido (Order)
-	 * pode ter apenas um usuário.
+	 * Para transformar client em chave estrangeira, isso porque um Usuário (User)
+	 * pode ter várias pedidos, enquanto o Pedido (Order) pode ter apenas um
+	 * usuário.
 	 */
 	@ManyToOne
-	//nome da chave estrangeira chamada no banco de dados
+	// nome da chave estrangeira chamada no banco de dados
 	@JoinColumn(name = "client_id")
 	private User client;
-	
+
 	public Order() {
-		
+
 	}
 
 	public Order(Long id, Instant moment, User client) {
@@ -94,6 +96,5 @@ public class Order implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }

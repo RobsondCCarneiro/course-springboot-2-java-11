@@ -9,8 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name = "tb_user")
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -22,7 +26,14 @@ public class User implements Serializable{
 	private String phone;
 	private String password;
 	
-	//entidade criada posteriomente para mapear a classe Order
+	/*
+	 * entidade criada posteriomente para mapear a classe Order.
+	 * Por causa da associação de mão dupla client - order, para
+	 * não ter um loop na busca do Banco de Dados (GET), PARA
+	 * EVITAR ISSO, É NECESSÁRIO É NECESSÁRIO UTILIZAR O JsonIgnore
+	 * em um dos lados.
+	 */
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
