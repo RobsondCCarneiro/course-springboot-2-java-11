@@ -28,7 +28,8 @@ public class Order implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
 	
-	private OrderStatus orderStatus;
+	//private OrderStatus orderStatus;
+	private Integer orderStatus;
 
 	/*
 	 * Para transformar client em chave estrangeira, isso porque um Usuário (User)
@@ -48,7 +49,8 @@ public class Order implements Serializable {
 		super();
 		this.id = id;
 		this.moment = moment;
-		this.orderStatus = orderStatus;
+		//this.orderStatus = orderStatus;
+		setOrderStatus(orderStatus);
 		this.client = client;
 	}
 
@@ -81,12 +83,24 @@ public class Order implements Serializable {
 //		return orderStatus;
 //	}
 	
-	/*
-	 * Parei o video em 10:17, tente terminar a aula amanhã
-	 */
+	public OrderStatus getOrderStatus() {
+		/*
+		 * Como o orderStatus é inteiro (Integer) internamente na classe,
+		 * então ele precisa de ser retornado como o tipo OrderStatus, então
+		 * ele foi convertido pelo método valoeOf(). 
+		 */
+		return OrderStatus.valueOf(orderStatus);
+	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
-		this.orderStatus = orderStatus;
+		/*
+		 * Agora é o processo inverso, ou seja, recebe uma variável
+		 * do tipo orderStatus e a seta como Integer para o processamento
+		 * interno nesta classe. 
+		 */
+		if(orderStatus != null) {
+			this.orderStatus = orderStatus.getCode();
+		}
 	}
 
 	
