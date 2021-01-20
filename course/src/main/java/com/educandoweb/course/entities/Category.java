@@ -8,8 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+//import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tb_category")
@@ -29,7 +32,16 @@ public class Category implements Serializable{
 	 * O nome products foi determinado no modelo de domínio
 	 */
 	//O transient impede do JPA interpretar isso daqui, para não dá erro.
-	@Transient
+	//@Transient
+	
+	/*
+	 * Aqui é o mapeamento que está definido em Products.
+	 * O JsonIgnore é para não haver o loop que chama a entidade que
+	 * está relacionada a Product que tem Category dentro, ai quando vê
+	 * que Category tem Product dentro, então fica um chamada eterno.
+	 */
+	@JsonIgnore
+	@ManyToMany(mappedBy = "categories")
 	private Set<Product> products = new HashSet<>();
 	
 	public Category() {
