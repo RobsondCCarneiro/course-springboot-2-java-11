@@ -29,10 +29,6 @@ import com.educandoweb.course.entities.Product;
 @Embeddable
 public class OrderItemPK implements Serializable{
 	private static final long serialVersionUID = 1L;
-
-	/*
-	 * Pausei a aula em 6:35, CONTINUE POR AQUI!!!!!!
-	 */
 	
 	@ManyToOne
 	@JoinColumn(name = "order_id")
