@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.educandoweb.course.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_order_item")
@@ -26,6 +27,7 @@ public class OrderItem implements Serializable{
 
 	public OrderItem(Order order, Product product, Integer quantity, Double price) {
 		super();
+		id = new OrderItemPK();
 		id.setOrder(order);
 		id.setProduct(product);
 		this.quantity = quantity;
@@ -33,7 +35,11 @@ public class OrderItem implements Serializable{
 	}
 
 	
-	
+	/*
+	 * Como há uma associação de mão dupla entre o OrderItem e o Order, há a necessidade de
+	 * do Json ignorar uma delas para não ocorrer o looping na impressão. 
+	 */
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
