@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.educandoweb.course.entities.enums.OrderStatus;
@@ -24,6 +26,7 @@ public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	//***************ATRIBUTOS BÁSICOS**************************
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -34,6 +37,8 @@ public class Order implements Serializable {
 	//private OrderStatus orderStatus;
 	private Integer orderStatus;
 
+	
+	//********************ASSOCIAÇÕES****************************
 	/*
 	 * Para transformar client em chave estrangeira, isso porque um Usuário (User)
 	 * pode ter várias pedidos, enquanto o Pedido (Order) pode ter apenas um
@@ -47,7 +52,16 @@ public class Order implements Serializable {
 	
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
+	
+	/*
+	 * A classe Order é a classe independente, pois não a associação com o pagamento é
+	 * de 0..1; O cascade é para mapear que ambas as entidades (pedido e pagamento) tenham o mesmo Id.
+	 * Isso é para mapeamento um para um.
+	 */
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	private Payment payment;
 
+	//*******************CONSTRUTORES********************************
 	public Order() {
 
 	}
@@ -61,6 +75,8 @@ public class Order implements Serializable {
 		this.client = client;
 	}
 
+	
+	//***************GETTERS E SETTERS*****************************
 	public Long getId() {
 		return id;
 	}
@@ -87,6 +103,15 @@ public class Order implements Serializable {
 	
 	
 	
+	
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
 	public Set<OrderItem> getItems(){
 		return items;
 	}
@@ -99,7 +124,7 @@ public class Order implements Serializable {
 	public OrderStatus getOrderStatus() {
 		/*
 		 * Como o orderStatus é inteiro (Integer) internamente na classe,
-		 * então ele precisa de ser retornado como o tipo OrderStatus, então
+		 * pois ele precisa de ser retornado como o tipo OrderStatus, então
 		 * ele foi convertido pelo método valoeOf(). 
 		 */
 		return OrderStatus.valueOf(orderStatus);
@@ -118,6 +143,7 @@ public class Order implements Serializable {
 	
 	
 
+	//**************************HASH CODES E EQUALS*************************
 	
 	@Override
 	public int hashCode() {
