@@ -48,8 +48,6 @@ public class OrderItem implements Serializable{
 		id.setOrder(order);
 	}
 	
-	//PAREI POR AQUI A AULA 320 (VEJA O RESTO DEPOIS)
-	@JsonIgnore
 	public Product getProduct() {
 		return id.getProduct();
 	}
