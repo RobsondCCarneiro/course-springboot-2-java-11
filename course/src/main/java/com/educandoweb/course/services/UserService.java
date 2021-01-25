@@ -43,5 +43,23 @@ public class UserService {
 	public void delete(Long id) {
 		repository.deleteById(id);
 	}
+	
+	//Para atualizar usuários
+	public User update(Long id, User obj) {
+		/*
+		 * O getOne instancia o usuário sem ir ao banco de dados previamente,
+		 * deixando o objeto monitorado pelo JPA para trabalhar e em seguida
+		 * possa efetuar uma operação no Banco de Dados
+		 */
+		User entity = repository.getOne(id);
+		updateData(entity, obj);
+		return repository.save(entity);
+	}
+
+	private void updateData(User entity, User obj) {
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
+	}
 
 }
