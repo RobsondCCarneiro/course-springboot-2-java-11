@@ -73,6 +73,14 @@ public class OrderItem implements Serializable{
 		this.price = price;
 	}
 
+	/*
+	 * Adicionando o método subTotal
+	 * Para aparecer no Json tem que ser chamado de get
+	 */
+	public Double getSubTotal() {
+		return price*quantity;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
